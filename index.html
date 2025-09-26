@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luxury Animated Portfolio</title>
+  <style>
+    /* Reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #121212;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    a {
+      color: #a78aff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    a:hover {
+      color: #d6bcff;
+    }
+
+    /* Container */
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 2rem 0 6rem;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: #1c1c28cc;
+      padding: 10px 0;
+      z-index: 1000;
+      backdrop-filter: saturate(180%) blur(12px);
+      box-shadow: 0 2px 10px rgb(120 85 255 / 0.3);
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      font-weight: 600;
+    }
+    nav a {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.9rem;
+    }
+    nav a.active {
+      color: #d6bcff;
+      border-bottom: 2px solid #d6bcff;
+      padding-bottom: 3px;
+    }
+
+    /* Hero */
+    #hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding-top: 70px;
+      text-align: left;
+    }
+    #hero .intro-text {
+      max-width: 500px;
+    }
+    #hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: #d6bcff;
+      margin-bottom: 0.25rem;
+    }
+    #hero p {
+      font-size: 1.25rem;
+      color: #b1a7faaa;
+    }
+    #hero img {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 30px #a78aff66;
+      border: 3px solid #a78aff;
+      transition: transform 0.4s ease;
+    }
+    #hero img:hover {
+      transform: scale(1.05);
+    }
+
+    /* About */
+    #about {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3rem 0;
+      border-top: 1px solid #281a70;
+    }
+    #about .about-text {
+      flex: 1 1 400px;
+      padding-right: 2rem;
+    }
+    #about h2 {
+      font-size: 2rem;
+      color: #b9aaff;
+      margin-bottom: 1rem;
+    }
+    #about p {
+      color: #ddd;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+    #about img {
+      flex: 1 1 300px;
+      border-radius: 20px;
+      max-width: 320px;
+      box-shadow: 0 0 40px #b398ff55;
+    }
+
+    /* Skills */
+    #skills {
+      padding: 3rem 0;
+      border-top: 1px solid #281a70;
+      text-align: center;
+    }
+    #skills h2 {
+      color: #d3bcff;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    .skill-circles {
+      display: flex;
+      justify-content: center;
+      gap: 3.5rem;
+      flex-wrap: wrap;
+    }
+    .skill {
+      width: 140px;
+      height: 140px;
+      position: relative;
+    }
+    svg {
+      transform: rotate(-90deg);
+    }
+    circle {
+      fill: none;
+      stroke-width: 12;
+      stroke-linecap: round;
+    }
+    .skill-bg {
+      stroke: #321f7d;
+    }
+    .skill-progress {
+      stroke: #b89bff;
+      stroke-dasharray: 350;
+      stroke-dashoffset: 350;
+      transition: stroke-dashoffset 1.6s ease-out;
+    }
+    .skill-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #d6bcff;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    .skill-name {
+      margin-top: 0.5rem;
+      color: #aaa;
+      font-weight: 600;
+    }
+
+    /* Portfolio */
+    #portfolio {
+      padding: 3rem 0;
+      border-top: 1px solid #281a70;
+    }
+    #portfolio h2 {
+      color: #d3bcff;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.8rem;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 0 25px #7755ffbb;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .gallery-item:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 40px #bbaaffdd;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    .gallery-item::after {
+      content: "View Project";
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: #9c79ffcc;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .gallery-item:hover::after {
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 0;
+      text-align: center;
+      color: #735affcc;
+      border-top: 1px solid #281a70;
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    .fade-slide-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-slide-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #hero {
+        flex-direction: column;
+        text-align: center;
+      }
+      #hero img {
+        margin-top: 2rem;
+      }
+      #about {
+        flex-direction: column;
+        text-align: center;
+      }
+      #about .about-text {
+        padding-right: 0;
+        margin-bottom: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="#hero" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#portfolio">Portfolio</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section id="hero" class="fade-slide-up">
+      <div class="intro-text">
+        <h1>Kishor Das</h1>
+        <p>
+         I am a&nbsp;
+         <span id="typed-text" style="border-right: 3px solid #a78aff; padding-right: 5px;"></span>
+        </p>
+
+      </div>
+      <img src="https://github.com/kishordas1513/kishordasportfolio/blob/6eccc42da232f3a71cc94e7bb907143d03cad155/Kishor%20Das1.png" alt="Profile Picture" />
+    </section>
+
+    <!-- About -->
+    <section id="about" class="fade-slide-up">
+      <div class="about-text">
+        <h2>About Me</h2>
+        <p>
+
+        I’m a digital marketer with 3+ years of experience
+        in SEO and social media marketing. I help
+        businesses grow online by boosting their website
+        traffic and building strong social media presence.
+        I enjoy using data and creativity to deliver real
+        results.
+        </p>
+      </div>
+      <img src="https://github.com/kishordas1513/kishordasportfolio/blob/6eccc42da232f3a71cc94e7bb907143d03cad155/Kishor%20Das3.png" alt="About Image" />
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="fade-slide-up">
+      <h2>My Skills</h2>
+      <div class="skill-circles">
+        <div class="skill" data-percent="90">
+          <svg width="140" height="140">
+            <circle class="skill-bg" cx="70" cy="70" r="56"></circle>
+            <circle class="skill-progress" cx="70" cy="70" r="56"></circle>
+          </svg>
+          <div class="skill-text">0%</div>
+          <div class="skill-name">Digital Marketing</div>
+        </div>
+        <div class="skill" data-percent="90">
+          <svg width="140" height="140">
+            <circle class="skill-bg" cx="70" cy="70" r="56"></circle>
+            <circle class="skill-progress" cx="70" cy="70" r="56"></circle>
+          </svg>
+          <div class="skill-text">0%</div>
+          <div class="skill-name">AI Automation</div>
+        </div>
+        <div class="skill" data-percent="90">
+          <svg width="140" height="140">
+            <circle class="skill-bg" cx="70" cy="70" r="56"></circle>
+            <circle class="skill-progress" cx="70" cy="70" r="56"></circle>
+          </svg>
+          <div class="skill-text">0%</div>
+          <div class="skill-name">Content Creation</div>
+        </div>
+        <div class="skill" data-percent="85">
+          <svg width="140" height="140">
+            <circle class="skill-bg" cx="70" cy="70" r="56"></circle>
+            <circle class="skill-progress" cx="70" cy="70" r="56"></circle>
+          </svg>
+          <div class="skill-text">0%</div>
+          <div class="skill-name">Business Consultant</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="fade-slide-up">
+      <h2>Portfolio</h2>
+      <div class="gallery">
+        <div class="gallery-item"><img src="https://github.com/kishordas1513/kishordasportfolio/blob/6eccc42da232f3a71cc94e7bb907143d03cad155/on%20page%20seo%20.png" alt="Project 1" /></div>
+        <div class="gallery-item"><img src="https://github.com/kishordas1513/kishordasportfolio/blob/6eccc42da232f3a71cc94e7bb907143d03cad155/off%20page%20seo.png" alt="Project 2" /></div>
+        <div class="gallery-item"><img src="https://github.com/kishordas1513/kishordasportfolio/blob/6eccc42da232f3a71cc94e7bb907143d03cad155/3%20After%20Speed%20Optimization%20By10%20Web%20Booster%20.png" alt="Project 3" /></div>
+        <div class="gallery-item"><img src="https://github.com/kishordas1513/kishordasportfolio/blob/6eccc42da232f3a71cc94e7bb907143d03cad155/fb%20ads.png" alt="Project 4" /></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Kishor Das | All right reserved
+  </footer>
+
+  <script>
+    // Highlight active nav on scroll
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll("nav a");
+    window.addEventListener("scroll", () => {
+      let current = '';
+      sections.forEach(section => {
+        const top = section.offsetTop - 75;
+        if (pageYOffset >= top) {
+          current = section.getAttribute("id");
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+
+    // Scroll fade-slide animation
+    const faders = document.querySelectorAll(".fade-slide-up");
+    const appearOptions = { threshold: 0.25, rootMargin: "0px 0px -50px 0px" };
+    const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        appearOnScroll.unobserve(entry.target);
+      });
+    }, appearOptions);
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+
+    // Animate skill circles
+    function animateSkill(skill) {
+      const circle = skill.querySelector(".skill-progress");
+      const text = skill.querySelector(".skill-text");
+      const radius = circle.r.baseVal.value;
+      const circumference = 2 * Math.PI * radius;
+      circle.style.strokeDasharray = circumference;
+      const percent = skill.getAttribute("data-percent");
+      let offset = circumference;
+      let count = 0;
+
+      function update() {
+        let progress = count / 100;
+        circle.style.strokeDashoffset = circumference - progress * circumference;
+        text.textContent = count + '%';
+        if (count < percent) {
+          count++;
+          requestAnimationFrame(update);
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    // Animate skills when in viewport
+    const skills = document.querySelectorAll(".skill");
+    const skillObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        animateSkill(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.5 });
+    skills.forEach(skill => {
+      skillObserver.observe(skill);
+    });
+  </script>
+  <script>
+  const phrases = [
+    'Digital Marketer',
+    'AI Automation Expert',
+    'Content Creator',
+    'Business Consultant'
+  ];
+  let currentPhraseIndex = 0;
+  const typingSpeed = 100;
+  const erasingSpeed = 50;
+  const delayBetweenPhrases = 1500;
+  const typedTextSpan = document.getElementById('typed-text');
+
+  function typePhrase(phrase, callback) {
+    let charIndex = 0;
+    function type() {
+      if (charIndex < phrase.length) {
+        typedTextSpan.textContent += phrase.charAt(charIndex);
+        charIndex++;
+        setTimeout(type, typingSpeed);
+      } else {
+        setTimeout(callback, delayBetweenPhrases);
+      }
+    }
+    type();
+  }
+
+  function erasePhrase(callback) {
+    let phrase = typedTextSpan.textContent;
+    let charIndex = phrase.length;
+    function erase() {
+      if (charIndex > 0) {
+        typedTextSpan.textContent = phrase.substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, erasingSpeed);
+      } else {
+        setTimeout(callback, 300);
+      }
+    }
+    erase();
+  }
+
+  function startTypingLoop() {
+    typePhrase(phrases[currentPhraseIndex], () => {
+      erasePhrase(() => {
+        currentPhraseIndex++;
+        if (currentPhraseIndex >= phrases.length) currentPhraseIndex = 0;
+        startTypingLoop();
+      });
+    });
+  }
+
+  startTypingLoop();
+</script>
+
+</body>
+</html>
